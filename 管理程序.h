@@ -31,6 +31,6 @@ public:
 	 int Qtruck_num;
 
 	//ÒÑµÇ´¬ÈÝÆ÷
-	Truck* Signed[10];
+	Truck Signed[10];
 	int Size;//¼ÇÂ¼ÈÝÁ¿
 };

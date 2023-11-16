@@ -46,19 +46,22 @@ void SignSolution::Sign()
 	if (type == 1)
 	{
 		car.Type = "客车";
-		Qper.InsertQuenu(&car);
+		Qper.InsertQuenu(car);
+		std::cout << "您的信息登记成功，请耐心等待叫号" << std::endl;
 	}
 	else if (type == 2)
 	{
 		car.Type = "鲜货车";
-		Qfresh.InsertQuenu(&car);
+		Qfresh.InsertQuenu(car);
+		std::cout << "您的信息登记成功，请耐心等待叫号" << std::endl;
 	}
 	else if (type == 3)
 	{
 		car.Type = "普通货车";
-		Qtruck.InsertQuenu(&car);
+		Qtruck.InsertQuenu(car);
+		std::cout << "您的信息登记成功，请耐心等待叫号" << std::endl;
 	}
-	std::cout << "您的信息登记成功，请耐心等待叫号" << std::endl;
+	
 	system("pause");
 	system("cls");
 
@@ -72,11 +75,11 @@ void SignSolution::Call()
 		while (!Qper.IsEmpty() && Qper_num < 3 or !Qper.IsEmpty() && Qfresh.IsEmpty() && Qfresh_num + Qper_num < 5 or !Qper.IsEmpty() && Qfresh.IsEmpty() && Qtruck.IsEmpty() && Acculumate < 6)//考虑加入客车的情况
 		{
 			//获取客车第一个元素 保存到登船数组
-			Truck* tr1=(Truck*)Qper.GetFirst();
+			Truck *tr1=Qper.GetFirst();
+			Signed[Size] = *tr1; 
 			Qper.DeleteQuenu();//出队
-			Signed[Size] = tr1;
 			Size++;//SIZE可替换为Acculuate
-			ShowInformation();
+			//ShowInformation();
 			Acculumate++;
 			Qper_num++;
 		}
@@ -95,11 +98,10 @@ void SignSolution::Call()
 		//考虑鲜货车的情况
 		while (!Qfresh.IsEmpty() && Qper_num + Qfresh_num < 5 or Qper.IsEmpty() && !Qfresh.IsEmpty() && Qtruck.IsEmpty() && Acculumate < 6)
 		{
-			Truck* tr2 = (Truck*)Qfresh.GetFirst();
+			Truck* tr2 = Qfresh.GetFirst();
+			Signed[Size] = *tr2;
 			Qfresh.DeleteQuenu();//出队
-			Signed[Size] = tr2;
 			Size++;//SIZE可替换为Acculuate
-			ShowInformation();
 			Acculumate++;
 			Qfresh_num++;
 		}
@@ -119,11 +121,10 @@ void SignSolution::Call()
 		while (!Qtruck.IsEmpty() && Qtruck_num < 1 or Qper.IsEmpty() && Qfresh.IsEmpty() && !Qtruck.IsEmpty() && Acculumate < 6)
 		{
 
-			Truck* tr3 = (Truck*)Qtruck.GetFirst();
+			Truck* tr3 = Qtruck.GetFirst();
+			Signed[Size] = *tr3;
 			Qtruck.DeleteQuenu();//出队
-			Signed[Size] = tr3;
 			Size++;//SIZE可替换为Acculuate
-			ShowInformation();
 			Acculumate++;
 			Qtruck_num++;
 		}
@@ -158,7 +159,7 @@ void SignSolution::ShowInformation()
 	//遍历已登船容器
 	for (int i = 0; i < Size; i++)
 	{
-		std::cout<< "车牌号为：" << Signed[i]->TId  << "车型为: " << Signed[i]->Type << std::endl;
+		std::cout<< "车牌号为：" << Signed[i].TId  << "车型为: " << Signed[i].Type << std::endl;
 	}
 	
 }
